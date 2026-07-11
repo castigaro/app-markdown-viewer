@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Markdown Viewer</string>
+    <string name="action_open">Öffnen</string>
+    <string name="action_save">Speichern</string>
+    <string name="mode_preview">Vorschau</string>
+    <string name="mode_code">Code</string>
+    <string name="empty_state">Keine Datei geöffnet.\n\nTippe oben auf „Öffnen“, um eine Markdown-Datei auszuwählen.</string>
+    <string name="editor_hint">Markdown-Quelltext …</string>
+    <string name="saved">Gespeichert</string>
+    <string name="error_open">Datei konnte nicht geöffnet werden: %1$s</string>
+    <string name="error_save">Datei konnte nicht gespeichert werden: %1$s</string>
+    <string name="unsaved_changes_title">Ungespeicherte Änderungen</string>
+    <string name="unsaved_changes_message">Die aktuelle Datei hat ungespeicherte Änderungen. Änderungen verwerfen und andere Datei öffnen?</string>
+    <string name="discard">Verwerfen</string>
+    <string name="cancel">Abbrechen</string>
+</resources>
