@@ -14,4 +14,10 @@
     <string name="unsaved_changes_message">Die aktuelle Datei hat ungespeicherte Änderungen. Änderungen verwerfen und andere Datei öffnen?</string>
     <string name="discard">Verwerfen</string>
     <string name="cancel">Abbrechen</string>
+
+    <!-- Update-Prüfung -->
+    <string name="action_check_update">Nach Update suchen</string>
+    <string name="update_available">Neue Version %1$s verfügbar</string>
+    <string name="update_download">Herunterladen</string>
+    <string name="update_up_to_date">Du hast bereits die neueste Version.</string>
 </resources>

@@ -8,16 +8,20 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.castigaro.mdviewer.databinding.ActivityMainBinding
+import com.castigaro.mdviewer.util.UpdateChecker
 import com.google.android.material.snackbar.Snackbar
 import io.noties.markwon.Markwon
 import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
 import io.noties.markwon.ext.tables.TablePlugin
 import io.noties.markwon.ext.tasklist.TaskListPlugin
 import io.noties.markwon.linkify.LinkifyPlugin
+import kotlinx.coroutines.launch
 import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
@@ -92,6 +96,11 @@ class MainActivity : AppCompatActivity() {
         )
         applyMode()
         updateTitle()
+
+        // Stille Prüfung beim Start — zeigt nur etwas, wenn wirklich eine neue Version da ist.
+        lifecycleScope.launch {
+            UpdateChecker.check()?.let { showUpdateSnackbar(it) }
+        }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -129,7 +138,36 @@ class MainActivity : AppCompatActivity() {
             saveFile()
             true
         }
+        R.id.action_check_update -> {
+            checkForUpdateManually()
+            true
+        }
         else -> super.onOptionsItemSelected(item)
+    }
+
+    // ---- Update-Prüfung ----
+
+    private fun showUpdateSnackbar(info: UpdateChecker.UpdateInfo) {
+        Snackbar.make(
+            binding.root,
+            getString(R.string.update_available, info.versionName),
+            Snackbar.LENGTH_INDEFINITE,
+        )
+            .setAction(R.string.update_download) {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(info.apkUrl)))
+            }
+            .show()
+    }
+
+    private fun checkForUpdateManually() {
+        lifecycleScope.launch {
+            val info = UpdateChecker.check()
+            if (info != null) {
+                showUpdateSnackbar(info)
+            } else {
+                Toast.makeText(this@MainActivity, R.string.update_up_to_date, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun launchPicker() {
