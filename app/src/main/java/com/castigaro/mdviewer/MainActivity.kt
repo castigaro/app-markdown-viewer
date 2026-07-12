@@ -8,20 +8,18 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
+import com.castigaro.common.update.UpdateChecker
+import com.castigaro.common.update.UpdateUi
 import com.castigaro.mdviewer.databinding.ActivityMainBinding
-import com.castigaro.mdviewer.util.UpdateChecker
 import com.google.android.material.snackbar.Snackbar
 import io.noties.markwon.Markwon
 import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
 import io.noties.markwon.ext.tables.TablePlugin
 import io.noties.markwon.ext.tasklist.TaskListPlugin
 import io.noties.markwon.linkify.LinkifyPlugin
-import kotlinx.coroutines.launch
 import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
@@ -34,6 +32,8 @@ class MainActivity : AppCompatActivity() {
     private var isDirty = false
     private var showPreview = true
     private var suppressDirtyTracking = false
+
+    private val updateChecker = UpdateChecker(VERSION_URL, BuildConfig.VERSION_CODE)
 
     private val openDocument = registerForActivityResult(
         ActivityResultContracts.OpenDocument()
@@ -98,9 +98,7 @@ class MainActivity : AppCompatActivity() {
         updateTitle()
 
         // Stille Prüfung beim Start — zeigt nur etwas, wenn wirklich eine neue Version da ist.
-        lifecycleScope.launch {
-            UpdateChecker.check()?.let { showUpdateSnackbar(it) }
-        }
+        UpdateUi.checkSilently(this, binding.root, updateChecker)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -139,35 +137,10 @@ class MainActivity : AppCompatActivity() {
             true
         }
         R.id.action_check_update -> {
-            checkForUpdateManually()
+            UpdateUi.checkManually(this, binding.root, updateChecker)
             true
         }
         else -> super.onOptionsItemSelected(item)
-    }
-
-    // ---- Update-Prüfung ----
-
-    private fun showUpdateSnackbar(info: UpdateChecker.UpdateInfo) {
-        Snackbar.make(
-            binding.root,
-            getString(R.string.update_available, info.versionName),
-            Snackbar.LENGTH_INDEFINITE,
-        )
-            .setAction(R.string.update_download) {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(info.apkUrl)))
-            }
-            .show()
-    }
-
-    private fun checkForUpdateManually() {
-        lifecycleScope.launch {
-            val info = UpdateChecker.check()
-            if (info != null) {
-                showUpdateSnackbar(info)
-            } else {
-                Toast.makeText(this@MainActivity, R.string.update_up_to_date, Toast.LENGTH_SHORT).show()
-            }
-        }
     }
 
     private fun launchPicker() {
@@ -274,6 +247,7 @@ class MainActivity : AppCompatActivity() {
         } ?: uri.lastPathSegment
 
     companion object {
+        private const val VERSION_URL = "https://appsonar.de/downloads/markdown-viewer-version.json"
         private const val STATE_URI = "state_uri"
         private const val STATE_FILE_NAME = "state_file_name"
         private const val STATE_DIRTY = "state_dirty"

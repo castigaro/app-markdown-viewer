@@ -16,3 +16,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "MarkdownViewer"
 include(":app")
+
+// Gemeinsame Bibliothek der AppSonar-Apps (Basis-Theme, Update-Erkennung).
+// Liegt im Monorepo neben apps/ und wird hier als Modul eingebunden.
+include(":common")
+project(":common").projectDir = file("../../common/android")
