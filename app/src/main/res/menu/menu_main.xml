@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_new"
+        android:icon="@drawable/ic_new_file"
+        android:title="@string/action_new"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_open"
         android:icon="@drawable/ic_folder_open"
         android:title="@string/action_open"

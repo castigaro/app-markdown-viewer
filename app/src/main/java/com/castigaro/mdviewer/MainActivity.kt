@@ -39,16 +39,31 @@ class MainActivity : AppCompatActivity() {
         ActivityResultContracts.OpenDocument()
     ) { uri ->
         if (uri != null) {
-            try {
-                contentResolver.takePersistableUriPermission(
-                    uri,
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                )
-            } catch (_: SecurityException) {
-                // Manche Provider vergeben keine dauerhaften Rechte; Lesen/Schreiben
-                // funktioniert für die laufende Sitzung trotzdem.
-            }
+            takePersistablePermission(uri)
             loadFile(uri)
+        }
+    }
+
+    // Legt die Datei über den System-Dialog an (SAF) — wie beim Öffnen
+    // braucht die App dafür keine Speicher-Berechtigung.
+    private val createDocument = registerForActivityResult(
+        ActivityResultContracts.CreateDocument("text/markdown")
+    ) { uri ->
+        if (uri != null) {
+            takePersistablePermission(uri)
+            startNewFile(uri)
+        }
+    }
+
+    private fun takePersistablePermission(uri: Uri) {
+        try {
+            contentResolver.takePersistableUriPermission(
+                uri,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+            )
+        } catch (_: SecurityException) {
+            // Manche Provider vergeben keine dauerhaften Rechte; Lesen/Schreiben
+            // funktioniert für die laufende Sitzung trotzdem.
         }
     }
 
@@ -128,6 +143,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.action_new -> {
+            confirmDiscardIfDirty {
+                createDocument.launch(getString(R.string.new_file_default_name))
+            }
+            true
+        }
         R.id.action_open -> {
             confirmDiscardIfDirty { launchPicker() }
             true
@@ -188,6 +209,24 @@ class MainActivity : AppCompatActivity() {
         applyMode()
         updateTitle()
         invalidateOptionsMenu()
+    }
+
+    /** Frisch angelegte (leere) Datei: direkt im Code-Modus lostippen. */
+    private fun startNewFile(uri: Uri) {
+        currentUri = uri
+        currentFileName = queryDisplayName(uri)
+        suppressDirtyTracking = true
+        binding.editor.setText("")
+        suppressDirtyTracking = false
+        isDirty = false
+
+        binding.emptyState.visibility = android.view.View.GONE
+        showPreview = false
+        binding.modeToggle.check(binding.buttonCode.id)
+        applyMode()
+        updateTitle()
+        invalidateOptionsMenu()
+        binding.editor.requestFocus()
     }
 
     private fun saveFile() {
