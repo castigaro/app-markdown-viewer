@@ -286,7 +286,7 @@ class MainActivity : AppCompatActivity() {
         } ?: uri.lastPathSegment
 
     companion object {
-        private const val VERSION_URL = "https://appsonar.de/downloads/markdown-viewer-version.json"
+        private const val VERSION_URL = "https://github.com/castigaro/app-markdown-viewer/releases/download/latest/markdown-viewer-version.json"
         private const val STATE_URI = "state_uri"
         private const val STATE_FILE_NAME = "state_file_name"
         private const val STATE_DIRTY = "state_dirty"

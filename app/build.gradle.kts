@@ -11,11 +11,11 @@ android {
         applicationId = "com.castigaro.mdviewer"
         minSdk = 26
         targetSdk = 34
-        versionCode = 5
-        versionName = "1.3.0"
+        versionCode = 6
+        versionName = "1.3.1"
     }
 
-    // Keystore und Passwort kommen aus GitHub-Secrets (siehe build-apk.yml).
+    // Keystore und Passwort kommen aus GitHub-Secrets (siehe build.yml).
     // Ohne beides wird die Release-Variante unsigniert gebaut.
     val releaseKeystore = rootProject.file("keystore/release.jks")
     val releaseStorePassword = project.findProperty("RELEASE_STORE_PASSWORD") as String?
