@@ -31,3 +31,12 @@ minSdk 26 / Android 8.0):
   (Dateiauswahl, Laden/Speichern, Moduswechsel, Markdown-Rendering)
 - `app/src/main/res/layout/activity_main.xml` — Layout mit Toolbar,
   Umschalter, Vorschau- und Editor-Ansicht
+
+## Lizenz
+
+Copyright © 2026 Torsten Klein
+
+Dieses Projekt steht unter der **GNU Affero General Public License v3.0 oder
+später** (AGPL-3.0-or-later), siehe [LICENSE](LICENSE): Wer den Code — auch als
+Netzwerkdienst — weiterverwendet oder verändert, muss den Quellcode unter
+derselben Lizenz offenlegen. Eine kommerzielle Lizenz ist auf Anfrage möglich.
