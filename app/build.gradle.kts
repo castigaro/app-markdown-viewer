@@ -4,15 +4,15 @@ plugins {
 }
 
 android {
-    namespace = "com.castigaro.mdviewer"
+    namespace = "com.appsonar.mdviewer"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.castigaro.mdviewer"
+        applicationId = "com.appsonar.mdviewer"
         minSdk = 26
         targetSdk = 34
-        versionCode = 7
-        versionName = "1.3.2"
+        versionCode = 8
+        versionName = "1.4.0"
     }
 
     // Keystore und Passwort kommen aus GitHub-Secrets (siehe build.yml).
@@ -24,7 +24,7 @@ android {
         create("release") {
             storeFile = releaseKeystore
             storePassword = releaseStorePassword
-            keyAlias = "markdownviewer"
+            keyAlias = "appsonar"
             keyPassword = releaseStorePassword
         }
     }

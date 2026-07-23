@@ -1,4 +1,4 @@
-package com.castigaro.mdviewer
+package com.appsonar.mdviewer
 
 import android.content.Intent
 import android.net.Uri
@@ -11,9 +11,9 @@ import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.castigaro.common.update.UpdateChecker
-import com.castigaro.common.update.UpdateUi
-import com.castigaro.mdviewer.databinding.ActivityMainBinding
+import com.appsonar.common.update.UpdateChecker
+import com.appsonar.common.update.UpdateUi
+import com.appsonar.mdviewer.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 import io.noties.markwon.Markwon
 import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
@@ -286,7 +286,7 @@ class MainActivity : AppCompatActivity() {
         } ?: uri.lastPathSegment
 
     companion object {
-        private const val VERSION_URL = "https://github.com/castigaro/app-markdown-viewer/releases/download/latest/markdown-viewer-version.json"
+        private const val VERSION_URL = "https://github.com/appsonar/app-markdown-viewer/releases/download/latest/markdown-viewer-version.json"
         private const val STATE_URI = "state_uri"
         private const val STATE_FILE_NAME = "state_file_name"
         private const val STATE_DIRTY = "state_dirty"

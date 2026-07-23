@@ -27,7 +27,7 @@ minSdk 26 / Android 8.0):
 
 ## Projektstruktur
 
-- `app/src/main/java/com/castigaro/mdviewer/MainActivity.kt` — gesamte App-Logik
+- `app/src/main/java/com/appsonar/mdviewer/MainActivity.kt` — gesamte App-Logik
   (Dateiauswahl, Laden/Speichern, Moduswechsel, Markdown-Rendering)
 - `app/src/main/res/layout/activity_main.xml` — Layout mit Toolbar,
   Umschalter, Vorschau- und Editor-Ansicht
