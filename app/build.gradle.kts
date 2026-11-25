@@ -11,8 +11,8 @@ android {
         applicationId = "com.appsonar.mdviewer"
         minSdk = 26
         targetSdk = 34
-        versionCode = 8
-        versionName = "1.4.0"
+        versionCode = 9
+        versionName = "1.4.1"
     }
 
     // Keystore und Passwort kommen aus GitHub-Secrets (siehe build.yml).
